@@ -8,6 +8,7 @@ import SlotsList from "./SlotsList"
 import styles from "@/styles/components/admin-dashboard.module.css"
 import Notification from "./Notification"
 import type { NotificationState } from "@/types"
+import { API_URL } from "@/config"
 
 export default function AdminDashboard() {
   const [doctors, setDoctors] = useState<Doctor[]>([])
@@ -18,7 +19,7 @@ export default function AdminDashboard() {
 
   const fetchDoctors = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/doctors');
+      const res = await fetch(`${API_URL}/doctors`);
       if (!res.ok) throw new Error('Failed to fetch doctors');
       const data = await res.json();
       setDoctors(data);
@@ -31,7 +32,7 @@ export default function AdminDashboard() {
 
   const fetchSlots = async (doctorId?: string) => {
     try {
-      const url = doctorId ? `http://localhost:5000/api/slots?doctorId=${doctorId}` : 'http://localhost:5000/api/slots';
+      const url = doctorId ? `${API_URL}/slots?doctorId=${doctorId}` : `${API_URL}/slots`;
       const res = await fetch(url);
       if (!res.ok) throw new Error('Failed to fetch slots');
       const data = await res.json();
@@ -54,7 +55,7 @@ export default function AdminDashboard() {
 
   const handleAddDoctor = async (doctor: Omit<Doctor, "id" | "createdAt">) => {
     try {
-      const res = await fetch('http://localhost:5000/api/doctors', {
+      const res = await fetch(`${API_URL}/doctors`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(doctor),
@@ -75,7 +76,7 @@ export default function AdminDashboard() {
 
   const handleAddSlot = async (slotData: Omit<Slot, "id" | "createdAt">) => {
     try {
-      const res = await fetch('http://localhost:5000/api/slots', {
+      const res = await fetch(`${API_URL}/slots`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(slotData),

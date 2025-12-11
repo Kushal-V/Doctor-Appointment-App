@@ -7,6 +7,7 @@ import SlotGrid from "./SlotGrid"
 import BookingModal from "./BookingModal"
 import Notification from "./Notification"
 import styles from "@/styles/components/patient-booking.module.css"
+import { API_URL } from "@/config"
 
 export default function PatientBooking() {
   const [doctors, setDoctors] = useState<Doctor[]>([])
@@ -20,7 +21,7 @@ export default function PatientBooking() {
   // Load doctors on mount
   const [mounted, setMounted] = useState(false);
   if (!mounted) {
-    fetch('http://localhost:5000/api/doctors')
+    fetch(`${API_URL}/doctors`)
       .then(res => res.json())
       .then(data => setDoctors(data));
     setMounted(true);
@@ -47,7 +48,7 @@ export default function PatientBooking() {
   // But DoctorList is a child. PROPER WAY:
   const handleSelectDoctor = (id: string) => {
     setSelectedDoctorId(id);
-    fetch(`http://localhost:5000/api/slots?doctorId=${id}`)
+    fetch(`${API_URL}/slots?doctorId=${id}`)
       .then(res => res.json())
       .then(data => {
         const mappedData = data.map((s: any) => ({
@@ -77,7 +78,7 @@ export default function PatientBooking() {
     if (!modal?.slotId) return
 
     try {
-      const res = await fetch('http://localhost:5000/api/bookings', {
+      const res = await fetch(`${API_URL}/bookings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
