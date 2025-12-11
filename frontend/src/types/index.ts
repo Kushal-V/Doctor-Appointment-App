@@ -12,6 +12,7 @@ export interface Slot {
   endTime: string
   status: "available" | "pending" | "booked"
   createdAt: string
+  patientName?: string
 }
 
 export interface Booking {

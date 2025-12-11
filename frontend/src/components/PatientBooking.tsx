@@ -123,7 +123,7 @@ export default function PatientBooking() {
 
   return (
     <div className={styles.booking}>
-      {notification && <Notification type={notification.type} message={notification.message} />}
+      {notification && <Notification notification={notification} />}
       {modal && <BookingModal modal={modal} onConfirm={handleConfirmBooking} onClose={() => setModal(null)} />}
 
       <div className={styles.header}>
