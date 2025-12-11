@@ -58,7 +58,11 @@ export default function BookingModal({ modal, onConfirm, onClose }: BookingModal
             </div>
             <div className={styles.detailItem}>
               <span className={styles.label}>Duration</span>
-              <span className={styles.value}>1 Hour</span>
+              <span className={styles.value}>
+                {modal.startTime && modal.endTime
+                  ? `${(new Date(modal.endTime).getTime() - new Date(modal.startTime).getTime()) / 60000} Minutes`
+                  : 'Unknown'}
+              </span>
             </div>
           </div>
 

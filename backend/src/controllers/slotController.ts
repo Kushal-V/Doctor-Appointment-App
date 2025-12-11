@@ -19,10 +19,7 @@ export const SlotController = {
     async list(req: Request, res: Response) {
         try {
             const { doctorId } = req.query;
-            if (!doctorId) {
-                return res.status(400).json({ error: 'Doctor ID is required' });
-            }
-            const slots = await SlotService.getSlotsByDoctor(doctorId as string);
+            const slots = await SlotService.getSlots(doctorId as string);
             res.json(slots);
         } catch (error: any) {
             console.error(error);

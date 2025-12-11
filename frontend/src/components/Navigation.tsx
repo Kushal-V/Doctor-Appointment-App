@@ -4,11 +4,11 @@ import styles from "@/styles/components/navigation.module.css"
 import { Stethoscope, Users } from "lucide-react"
 
 interface NavigationProps {
-  activeView: "admin" | "patient"
-  setActiveView: (view: "admin" | "patient") => void
+  userRole: "admin" | "patient"
+  onLogout: () => void
 }
 
-export default function Navigation({ activeView, setActiveView }: NavigationProps) {
+export default function Navigation({ userRole, onLogout }: NavigationProps) {
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
@@ -18,19 +18,15 @@ export default function Navigation({ activeView, setActiveView }: NavigationProp
         </div>
 
         <div className={styles.navLinks}>
+          <span className={styles.roleLabel}>
+            {userRole === "admin" ? "Admin Dashboard" : "Patient Portal"}
+          </span>
           <button
-            className={`${styles.navButton} ${activeView === "patient" ? styles.active : ""}`}
-            onClick={() => setActiveView("patient")}
+            className={`${styles.navButton}`}
+            style={{ backgroundColor: '#ef4444', color: 'white', border: 'none' }}
+            onClick={onLogout}
           >
-            <Users size={20} />
-            Book Appointment
-          </button>
-          <button
-            className={`${styles.navButton} ${activeView === "admin" ? styles.active : ""}`}
-            onClick={() => setActiveView("admin")}
-          >
-            <Stethoscope size={20} />
-            Admin Dashboard
+            Logout
           </button>
         </div>
       </div>

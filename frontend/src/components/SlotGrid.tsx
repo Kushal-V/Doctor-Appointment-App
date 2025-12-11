@@ -43,6 +43,7 @@ export default function SlotGrid({ slots, onSelectSlot, bookedPatients }: SlotGr
               disabled={slot.status !== "available"}
               title={patientName ? `Booked by ${patientName}` : ""}
             >
+              <div className={styles.date}>{new Date(slot.startTime).toLocaleDateString()}</div>
               <div className={styles.time}>{formatTime(slot.startTime)}</div>
               <div className={styles.duration}>
                 {formatTime(slot.startTime)} - {formatTime(slot.endTime)}
