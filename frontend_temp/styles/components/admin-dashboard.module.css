@@ -1,0 +1,72 @@
+/* Enhanced admin dashboard with vibrant colors and gradient headers */
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.header {
+  margin-bottom: var(--spacing-2xl);
+  background: var(--gradient-primary);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-xl);
+  color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+  border-left: 6px solid var(--color-secondary);
+}
+
+.header h1 {
+  font-size: var(--font-size-3xl);
+  color: var(--color-white);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 700;
+  margin: 0;
+}
+
+.header p {
+  font-size: var(--font-size-base);
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  margin-top: var(--spacing-xs);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2xl);
+}
+
+.formsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.slotsSection {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+  border-top: 6px solid var(--color-secondary);
+  border-left: 3px solid var(--color-info);
+}
+
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: var(--spacing-lg);
+  }
+
+  .header h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .formsSection {
+    gap: var(--spacing-md);
+  }
+}
