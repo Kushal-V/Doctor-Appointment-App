@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/server.ts",
+    "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "build": "echo 'Build skipped - using ts-node in production'"
+    "build": "node node_modules/typescript/lib/tsc.js"
   },
   "keywords": [],
   "author": "",
