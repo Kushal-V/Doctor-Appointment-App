@@ -37,18 +37,20 @@ if (process.env.NODE_ENV === 'production') {
 
     if (fs.existsSync(frontendPath)) {
         app.use(express.static(frontendPath));
-        // Use RegExp for catch-all to avoid Express 5 path-to-regexp errors with '*'
-        app.get(/.*/, (req, res) => {
+        // Use middleware for catch-all to avoid routing syntax issues completely
+        app.use((req, res) => {
             res.sendFile(path.join(frontendPath, 'index.html'));
         });
         console.log("Frontend static files serving enabled.");
     } else {
         console.error("CRITICAL: Frontend build directory not found at:", frontendPath);
-        app.get('/', (req, res) => res.send("Backend is running, but Frontend build not found. Chech build logs."));
+        app.get('/', (req, res) => res.send("Backend is running, but Frontend build not found. Check build logs."));
     }
 }
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const PORT = parseInt(process.env.PORT || '5000', 10);
+// Explicitly bind to 0.0.0.0 for Docker/Railway environments
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(`Ready to accept connections at http://0.0.0.0:${PORT}`);
 });
