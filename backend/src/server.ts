@@ -39,7 +39,12 @@ if (process.env.NODE_ENV === 'production') {
         app.use(express.static(frontendPath));
         // Use middleware for catch-all to avoid routing syntax issues completely
         app.use((req, res) => {
-            res.sendFile(path.join(frontendPath, 'index.html'));
+            res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+                if (err) {
+                    console.error("Error sending frontend file:", err);
+                    res.status(500).send("Error loading frontend");
+                }
+            });
         });
         console.log("Frontend static files serving enabled.");
     } else {
