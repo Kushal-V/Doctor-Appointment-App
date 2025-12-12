@@ -1,13 +1,17 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
 import { pool } from './config/db';
 
 dotenv.config();
 
-const app = express();
+console.log("Starting backend server...");
+console.log("Environment:", process.env.NODE_ENV);
+console.log("Database URL present:", !!process.env.DATABASE_URL);
 
-import path from 'path';
+const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +25,7 @@ app.get('/health', async (req, res) => {
         client.release();
         res.json({ status: 'OK', db: 'Connected' });
     } catch (error: any) {
+        console.error("Health check DB error:", error);
         res.status(500).json({ status: 'ERROR', db: error.message });
     }
 });
@@ -28,11 +33,18 @@ app.get('/health', async (req, res) => {
 // Serve Frontend Static Files
 if (process.env.NODE_ENV === 'production') {
     const frontendPath = path.join(__dirname, '../../frontend/dist');
-    app.use(express.static(frontendPath));
+    console.log("Serving frontend from:", frontendPath);
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(frontendPath, 'index.html'));
-    });
+    if (fs.existsSync(frontendPath)) {
+        app.use(express.static(frontendPath));
+        app.get('*', (req, res) => {
+            res.sendFile(path.join(frontendPath, 'index.html'));
+        });
+        console.log("Frontend static files serving enabled.");
+    } else {
+        console.error("CRITICAL: Frontend build directory not found at:", frontendPath);
+        app.get('/', (req, res) => res.send("Backend is running, but Frontend build not found. Chech build logs."));
+    }
 }
 
 const PORT = process.env.PORT || 5000;
