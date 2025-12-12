@@ -37,7 +37,8 @@ if (process.env.NODE_ENV === 'production') {
 
     if (fs.existsSync(frontendPath)) {
         app.use(express.static(frontendPath));
-        app.get('*', (req, res) => {
+        // Use RegExp for catch-all to avoid Express 5 path-to-regexp errors with '*'
+        app.get(/.*/, (req, res) => {
             res.sendFile(path.join(frontendPath, 'index.html'));
         });
         console.log("Frontend static files serving enabled.");
